@@ -75,3 +75,50 @@ sudo a2dissite 000-default
 
 # Update Apache to ensure that all changes are applied correctly:
 sudo service apache2 reload
+
+# =====================================================================
+# Configure the MySQL database locally - After the tests connect to RDS
+#======================================================================
+
+
+export MYSQL_ROOT_PASSWORD="######"
+
+# Set up a new MySQL database to store and get user data on your new WordPress site.
+sudo mysql -u root
+
+# Create a new database. Lets call it wordpress:
+CREATE DATABASE wordpress;
+
+# Set up a new user for the wordpress database.
+CREATE USER wordpress-localhost IDENTIFIED BY $MYSQL_ROOT_PASSWORD ;
+
+# Grant the user permission to access and modify the database
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, ALTER ON wordpress.* TO wordpress@localhost;
+
+# Clear database privileges to apply changes:
+FLUSH PRIVILEGES;
+
+# Exit the SQL
+quit
+
+export DEBIAN_FRONTEND="noninteractive"
+sudo apt update
+sudo apt install -yq phpmyadmin
+
+# Set the MySQL administrative user's password
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-user string root"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $MYSQL_ROOT_PASSWORD"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $MYSQL_ROOT_PASSWORD"
+sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2"
+
+sudo dpkg-reconfigure -f noninteractive phpmyadmin
+
+echo "Include /etc/phpmyadmin/apache.conf" >> /etc/apache2/apache2.conf
+
+sudo phpenmod mbstring
+
+sudo service apache2 restart
+echo "Apache service restarted"
+
+

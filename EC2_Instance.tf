@@ -10,8 +10,9 @@ resource "aws_instance" "ec2_wordpress" {
   subnet_id                   = aws_subnet.subnet_wordpress_public_01.id
   iam_instance_profile        = aws_iam_instance_profile.ec2_instance_profile.name
   associate_public_ip_address = true
-  user_data                   = filebase64("./ec2_user_data_script.sh")
-  #user_data                  = "${file(ec2_user_data_script.sh)}"
+ #user_data                   = filebase64("./ec2_user_data_script.sh")  # For CodeDeploy
+  user_data                   = filebase64("./ec2_wp_aws_user_data.sh")  # For WordPress
+
 
   tags = {
     Name = "EC2_WordPress"
