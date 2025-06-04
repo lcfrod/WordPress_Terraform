@@ -1,6 +1,6 @@
  # ------------------------------------------- 
   # Local .terraform directories - 25-05-2025
- .terraform/
+ **/.terraform/*
 
 # .tfstate files
 *.tfstate
@@ -38,7 +38,7 @@ override.tf.json
 terraform.rc
 .terraform.lock.hcl
 .terraform/providers/**/*
-.terraform/providers/**/*
+.terraform/**/*
 
 # Ignore the keys
 key_wordpress*
