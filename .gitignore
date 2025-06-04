@@ -3,9 +3,6 @@
 #  In case of error of large file in .terrafor try:
 # git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch .terraform/'
 
-
-
-
 **/.terraform/*
 *
 # .tfstate files
