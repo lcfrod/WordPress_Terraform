@@ -47,3 +47,7 @@ terraform.rc
 key_wordpress*
 .terraform.tfstate.lock.info
 terraform.tfstate.backup
+terraform.tfstate
+terraform.tfstate
+terraform.tfstate
+terraform.tfstate.backup
