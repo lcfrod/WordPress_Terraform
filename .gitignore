@@ -1,7 +1,13 @@
- # ------------------------------------------- 
-  # Local .terraform directories - 25-05-2025
- **/.terraform/*
+# ------------------------------------------- 
+# Local .terraform directories - 25-05-2025
+#  In case of error of large file in .terrafor try:
+# git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch .terraform/'
 
+
+
+
+**/.terraform/*
+*
 # .tfstate files
 *.tfstate
 *.tfstate.*
@@ -42,3 +48,4 @@ terraform.rc
 
 # Ignore the keys
 key_wordpress*
+.terraform.tfstate.lock.info
