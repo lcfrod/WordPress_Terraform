@@ -46,3 +46,4 @@ terraform.rc
 # Ignore the keys
 key_wordpress*
 .terraform.tfstate.lock.info
+terraform.tfstate.backup
