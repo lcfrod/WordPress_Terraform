@@ -48,3 +48,12 @@ resource "aws_subnet" "subnet_wordpress_private_02" {
     Name = "subnet_wordpress_private_02"              #AQUI VOCÊ DEFINE A TAG NAME QUE UTILIZARÁ NO RECURSO.
   }
 }
+
+resource "aws_db_subnet_group" "wp_db_wordpress_grp"{
+  name       = "wp_db_wordpress_grp"
+  subnet_ids = [aws_subnet.subnet_wordpress_private_01.id,aws_subnet.subnet_wordpress_private_02.id]
+  tags = {
+    Name = "rds_subnets_group"
+  }
+}
+
