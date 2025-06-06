@@ -25,9 +25,8 @@ resource "aws_subnet" "subnet_wordpress_public_02" {
   }
 }
 
-
 # Creating two PRIVATE Subnets to support the Back End Resources
-# Creating the 1st Private  Subnet
+# 1st Private  Subnet
 resource "aws_subnet" "subnet_wordpress_private_01" {     #subnet_wordpress_private_01 É O NOME DA SUA SUBREDE, ESCOLHA UM DA SUA PREFERÊNCIA.
   vpc_id     = aws_vpc.vpc_wordpress.id           # Attach this Subnet to our VPC.
   availability_zone = "us-east-1a"           # Define Availability Zone - Region 1a - North Virginia
@@ -38,7 +37,7 @@ resource "aws_subnet" "subnet_wordpress_private_01" {     #subnet_wordpress_priv
   }
 }
 
-# Creasgting the 2nd Public Subnet
+# 2nd Public Subnet
 resource "aws_subnet" "subnet_wordpress_private_02" {
   vpc_id     = aws_vpc.vpc_wordpress.id
   availability_zone = "us-east-1b"           # Define Availability Zone - Region 1a - North Virginia
@@ -49,7 +48,7 @@ resource "aws_subnet" "subnet_wordpress_private_02" {
   }
 }
 
-resource "aws_db_subnet_group" "wp_db_wordpress_grp"{
+resource "aws_db_subnet_group" "wp_db_wordpress_subnet_grp"{
   name       = "wp_db_wordpress_grp"
   subnet_ids = [aws_subnet.subnet_wordpress_private_01.id,aws_subnet.subnet_wordpress_private_02.id]
   tags = {
