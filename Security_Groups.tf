@@ -36,7 +36,15 @@ resource "aws_security_group" "sg_wordpress" {
     protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]  
   }
-    
+
+ ingress {
+    description = "MYSQL"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+   
   egress {
     description = "Liberate Outbound"
     from_port = 0     # HTTPS
@@ -47,14 +55,14 @@ resource "aws_security_group" "sg_wordpress" {
 
 }
 
-# Security group for RDS
-resource "aws_security_group" "RDS_allow_rule" {
+# Create a security group for RDS Database Instance
+resource "aws_security_group" "rds_sg" {
+   name   = "rds_sg"
   vpc_id = aws_vpc.vpc_wordpress.id                     
   ingress {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.sg_wordpress.id}"]
   }
   # Allow all outbound traffic.
   egress {
@@ -67,3 +75,4 @@ resource "aws_security_group" "RDS_allow_rule" {
     Name = "RDS_allow_rule ec2"
   }
 }
+

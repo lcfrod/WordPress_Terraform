@@ -24,5 +24,6 @@ resource "aws_instance" "ec2_wordpress" {
     aws_key_pair.key_wordpress
   ]
 
+
 }
 
