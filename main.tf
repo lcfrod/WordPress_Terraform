@@ -10,18 +10,19 @@
 # #############################################################################
 # Define AWS as the Provider
 
-provider "aws" {
-  region = "us-east-1" #  North Virginia AWS Region 
-  default_tags {       # Default Tags for all the Resources across this Project
-    tags = {
-      Environment = "Development"
-      Owner       = "AWS Especializacao"
-      Project     = "Project_01 WordPress AWS Migration"
-      Company     = "Acme Corporation"
-      Architect   = "Luiz Carlos Rodrigues"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
+    mysql = {
+      source = "petoju/mysql"
+      version = "~> 3.0.72"
+    }
+    
   }
 }
-
+ 
 # End of Code
 
