@@ -20,9 +20,9 @@ resource "aws_db_instance" "default" {
 # Configure the MySQL provider based on the outcome of
 # creating the aws_db_instance.
 provider "mysql" {
-  endpoint = "${aws_db_instance.default.endpoint}"
-  username = "${aws_db_instance.default.username}"
-  password = "${aws_db_instance.default.password}"
+  endpoint = aws_db_instance.default.endpoint
+  username = aws_db_instance.default.username
+  password = aws_db_instance.default.password
 }
 
 #resource "mysql_user" "wordpress_user" {
@@ -33,11 +33,16 @@ provider "mysql" {
 #  privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"]
 #}
 
-resource "mysql_grant" "wordpress_user_grant" {
-  user       = "${aws_db_instance.default.username}"
-  host       = "${aws_db_instance.default.endpoint}"
-  database   = "${aws_db_instance.default.db_name}"
-  privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"]
-  depends_on = [aws_db_instance.default]
-}
+#resource "mysql_grant" "wordpress_user_grant" {
+#  user       = "${aws_db_instance.default.username}"
+#  host       = "${aws_db_instance.default.endpoint}"
+#  database   = "${aws_db_instance.default.db_name}"
+#  privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"]
+#  depends_on = [aws_db_instance.default]
+#}
+ 
 
+
+output "rds_address" {
+  value = aws_db_instance.default.address
+}

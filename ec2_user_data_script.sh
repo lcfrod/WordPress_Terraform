@@ -1,4 +1,7 @@
-#!/bin/bash    
+#!/bin/bash   
+echo "Making this script verbose"
+set -x
+echo "Starting execution of user data"
 
 # Install AWS CodeDeploy Agent in EC2 Instance -- Update 25/05/25
 # Reference : https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
@@ -73,4 +76,6 @@ sudo a2enmod rewrite
 sudo a2dissite 000-default
 sudo service apache2 reload
 
-mysql --host="${aws_db_instance.default.endpoint}" --user=admin --password=admin#123  wordpressdb  -e "SHOW DATABASES";
+mysql --host="${rds_address}" --user=admin --password=admin#123  wordpressdb  -e "SHOW DATABASES"; 
+
+echo "**** End of the User data script  ****"
