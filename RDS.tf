@@ -40,8 +40,6 @@ provider "mysql" {
 #  privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"]
 #  depends_on = [aws_db_instance.default]
 #}
- 
-
 
 output "rds_address" {
   value = aws_db_instance.default.address

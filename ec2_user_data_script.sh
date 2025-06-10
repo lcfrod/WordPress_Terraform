@@ -3,6 +3,9 @@ echo "Making this script verbose"
 set -x
 echo "Starting execution of user data"
 
+# ---------------------------------------------------------------------------
+echo "# Installing  AWS CodeDeploy"
+# ---------------------------------------------------------------------------
 # Install AWS CodeDeploy Agent in EC2 Instance -- Update 25/05/25
 # Reference : https://docs.aws.amazon.com/codedeploy/latest/userguide/codedeploy-agent-operations-install-ubuntu.html
 sudo apt update
@@ -26,13 +29,19 @@ sudo systemctl start codedeploy-agent
 ## ============================================================
 # # Install  WordPress
 # Referencia : https://medium.com/@TechmanDevops/terraform-deploy-wordpress-em-uma-inst%C3%A2ncia-aws-e95cd910be61
-echo "# 1. Connect to your server and create an account"
+#              https://ubuntu.com/tutorials/install-and-configure-wordpress#3-install-wordpress
+
+# ---------------------------------------------------------------------------
+echo "# 1. Connect to your server and create an account" - Optional
+# ---------------------------------------------------------------------------
 
 # adduser username
 # usermod -a -G sudo username
 # su username
 
+# ---------------------------------------------------------------------------
 echo "# 2. Install WordPress dependencies"
+# ---------------------------------------------------------------------------
 sudo apt  update -y
 sudo apt  install apache2 -y
 sudo systemctl restart apache2
@@ -54,28 +63,32 @@ sudo mkdir -p /srv/www
 sudo chown www-data: /srv/www
 curl https://wordpress.org/latest.tar.gz | sudo -u www-data tar zx -C /srv/www
 
-echo "# 4. Configure the Apache web server"
-cat <<EOF>>  /etc/apache2/sites-available/wordpress.conf
-<VirtualHost *:80>  \
-    DocumentRoot /srv/www/wordpress \
-    <Directory /srv/www/wordpress> \
-        Options FollowSymLinks \
-        AllowOverride Limit Options FileInfo \
-        DirectoryIndex index.php \
-        Require all granted \
-    </Directory> \
-    <Directory /srv/www/wordpress/wp-content> \
-        Options FollowSymLinks \
-        Require all granted \
-    </Directory> \
-</VirtualHost>
-EOF
+# ---------------------------------------------------------------------------
+echo "# 4. Configure the Apache for Wordpress"
+# ---------------------------------------------------------------------------
+echo '<VirtualHost *:80>
+    DocumentRoot /srv/www/wordpress
+    <Directory /srv/www/wordpress>
+        Options FollowSymLinks
+        AllowOverride Limit Options FileInfo
+        DirectoryIndex index.php
+        Require all granted
+    </Directory>
+    <Directory /srv/www/wordpress/wp-content>
+        Options FollowSymLinks
+        Require all granted
+    </Directory>
+</VirtualHost> ' | sudo tee -a /etc/apache2/sites-available/wordpress.conf 
 
 sudo a2ensite wordpress
 sudo a2enmod rewrite
 sudo a2dissite 000-default
 sudo service apache2 reload
 
-mysql --host="${rds_address}" --user=admin --password=admin#123  wordpressdb  -e "SHOW DATABASES"; 
+# ---------------------------------------------------------------------------
+echo "# 5. Configure database "
+# ---------------------------------------------------------------------------
+
+mysql --host="${rds_address}" --user=admin --password="${rds_password}"  wordpressdb  -e "SHOW DATABASES"; 
 
 echo "**** End of the User data script  ****"
