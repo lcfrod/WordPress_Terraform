@@ -23,19 +23,16 @@ resource "aws_instance" "ec2_wordpress" {
     #    DB_NAME           = var.DB_NAME
   }))
 
-
   tags = {
     Name = "EC2_WordPress"
     OS   = "Ubuntu 22.04"
 
   }
-
   depends_on = [
     aws_key_pair.key_wordpress
   ]
-
-
 }
+
 
 output "instance_public_ip" {
   description = "The public IP address of the EC2 instance."

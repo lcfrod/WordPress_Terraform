@@ -1,6 +1,7 @@
 # Create RDS MySql databas  for WordPress backend
 resource "aws_db_instance" "default" {
-  identifier           = "wordpress-database"
+  identifier           = "wordpressdb"
+  availability_zone    = "us-east-1a" 
   allocated_storage    = 10
   db_name              = "wordpressdb"
   engine               = "mysql"
@@ -8,7 +9,6 @@ resource "aws_db_instance" "default" {
   instance_class       = "db.t3.micro"
   parameter_group_name = "default.mysql8.0"
   skip_final_snapshot  = true
-  #vpc_security_group_ids = [aws_security_group.sg_wordpress.id]
   vpc_security_group_ids = ["${aws_security_group.mysql_rds_security_group.id}"]
   db_subnet_group_name   = aws_db_subnet_group.wp_db_wordpress_subnet_grp.name
   username               = "admin"
@@ -40,6 +40,7 @@ provider "mysql" {
 #  privileges = ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "DROP", "ALTER"]
 #  depends_on = [aws_db_instance.default]
 #}
+
 
 output "rds_address" {
   value = aws_db_instance.default.address
